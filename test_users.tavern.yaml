@@ -1,0 +1,82 @@
+#This yaml file tests User microservice apis
+#A basic test for GET call, gets all existing users in database
+test_name: retrieve all users
+stages:
+  - name: post
+    request:
+      url: http://localhost:8000/api/users/all
+      method: GET
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+
+#Test a GET call to get a single exisiting user with params=userid
+test_name: retrieve existing single user
+stages:
+  - name: post
+    request:
+      url: http://localhost:8000/api/users/Aleckie
+      method: GET
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+
+#Test case to POST -To create a new user with id=abc2019
+test_name: Create a new user abc2019
+stages:
+  - name: register new user
+    request:
+      url: http://localhost:8000/api/users
+      json:
+        username: abc2019
+        full_name: Abc
+        password: password
+        email: abc@google.com
+        homeurl: google.com
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 201
+
+#Test Get call to get the newly added user abc2019
+test_name: retrieve recently added user abc2019
+stages:
+  - name: post
+    request:
+      url: http://localhost:8000/api/users/abc2019
+      method: GET
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+
+#Test PUT api verb to modify/update values of a user: (Password change operation)
+test_name: Change password for an existing user
+stages:
+  - name: change
+    request:
+      url: http://localhost:8000/api/users/changepassword
+      method: PUT
+      json:
+        username: abc2019
+        password_old: password
+        password_new: abc
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+
+#Test Delete verb to delete an existing user
+test_name: delete recently added user abc2019
+stages:
+  - name: delete
+    request:
+      url: http://localhost:8000/api/users/abc2019
+      method: DELETE
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
